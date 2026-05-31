@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strconv"
 	"time"
+
+	"github.com/gen2brain/beeep"
 )
 
 func getUserInput() (int, error) {
@@ -14,7 +16,7 @@ func getUserInput() (int, error) {
 	// conversion de la saisie 
 	duration, err := strconv.Atoi(durationStr)
 	if err != nil {
-		return 0, fmt.Errorf("la durée est invalide %d: %w", duration, err)
+		return 0, fmt.Errorf("la durée %d est invalide : %w", durationStr, err)
 	}
 
 	// check if valus is in the range 
@@ -33,6 +35,11 @@ func startMinuterie(duration int){
 		time.Sleep(1 * time.Second)
 	}
 
+	// send notification when period is end
+	err := beeep.Beep(beeep.DefaultFreq, beeep.DefaultDuration)
+	if err != nil {
+		fmt.Printf("Impossible de jour le super son de libération %v\n", err)
+	}
 	fmt.Println("Période de travail terminé")
 }
 
